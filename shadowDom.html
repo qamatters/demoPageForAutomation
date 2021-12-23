@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Simple DOM example</title>
+</head>
+<body>
+
+    <form action="/action_page.php">
+        <label for="age">Age:</label><br>
+        <input type="text" id="age" name="age" value=""><br>
+      </form> 
+
+    <script>
+      class PersonName extends HTMLElement {
+
+        constructor(){
+		super();
+		let shadowEl = this.attachShadow({mode: 'closed'});
+		let elementRoot = document.createElement('div');
+		
+        let fnameLabel = document.createElement('label');
+		fnameLabel.innerText= 'First name: ';
+
+        let lnameLabel = document.createElement('label');
+		lnameLabel.innerText= 'Last name: ';
+		
+		let fnameEl = document.createElement('input');
+        let lnameEl = document.createElement('input');
+
+		elementRoot.append(fnameLabel);
+		elementRoot.append(fnameEl);
+        elementRoot.append(document.createElement('br'));
+        elementRoot.append(lnameLabel);
+		elementRoot.append(lnameEl);
+
+        let spanOutput = document.createElement('span');
+        elementRoot.append(document.createElement('br'));
+        elementRoot.append(spanOutput);
+
+        this.nameELChange = () => {
+            spanOutput.innerHTML = `Hello ${fnameEl.value} ${lnameEl.value}`
+        }
+
+        fnameEl.addEventListener('change', this.nameELChange);
+        lnameEl.addEventListener('change', this.nameELChange);
+		
+        shadowEl.append(elementRoot);
+		
+    }
+}
+
+customElements.define('person-name', PersonName);
+
+    </script>
+<person-name></person-name>
+</body>
+</html>
